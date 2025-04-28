@@ -1,0 +1,95 @@
+<div class="row">
+  <nz-space class="col-md-12 mt-3">
+    <label style="font-size: 20px" *nzSpaceItem nz-icon><i class="fa fa-folder-o"></i></label>
+    <label class="fw-semibold" style="font-size: 17px" *nzSpaceItem>{{ folder.folderName }}</label>
+    <button nzSize="small" *nzSpaceItem nz-button nzType="default" nzShape="circle" nz-dropdown nzTrigger="click"
+            [nzDropdownMenu]="dropdownFolder">
+      <span nz-icon><i class="fa fa-ellipsis-v"></i></span>
+    </button>
+  </nz-space>
+  <h4 class="mt-3">{{ 'workspace.agents' | translate }} ({{ folder.agents.length }})</h4>
+  <nz-divider class="mt-0 mb-0"></nz-divider>
+  <div class="col-md-12 d-flex justify-content-between mt-2">
+    <nz-space>
+      <common-input [isSearch]="true" *nzSpaceItem [offMb]="true"
+                    [placeholder]="'workspace.searchAgent'|translate" [(ngModel)]="searchObject.searchAgent"
+                    [prefix]="suffixIconButton"></common-input>
+      <common-input *nzSpaceItem [offMb]="true" [items]="SORT_LIST" [showLabel]="false"
+                    [(ngModel)]="searchObject.orderBy" bindLabel="name" bindValue="value" [isTranslation]="true"
+                    type="select"></common-input>
+      <button *nzSpaceItem nz-button nzType="default" (click)="searchObject.isAsc=!searchObject.isAsc">
+        <span *ngIf="!searchObject.isAsc" nz-icon nzType="sort-descending"></span>
+        <span *ngIf="searchObject.isAsc" nz-icon nzType="sort-ascending"></span>
+      </button>
+    </nz-space>
+    <button nz-button nzType="primary" (click)="isModalAgent=true">
+      <span nz-icon><i class="fa fa-user-plus"></i></span>
+      {{ 'workspace.createAgent'|translate }}
+    </button>
+  </div>
+  <div class="col-md-12">
+    <nz-space nzWrap="true" nzSize="large">
+      <ng-container *ngFor="let agent of folder.agents">
+        <nz-card *nzSpaceItem class="mt-3">
+          <nz-card-meta [nzAvatar]="avatarTemplate" [nzTitle]="agent.role"
+                        [nzDescription]="agent.name"></nz-card-meta>
+        </nz-card>
+      </ng-container>
+      <nz-alert class="mt-3" *ngIf="!folder.agents || folder.agents.length == 0" nzType="warning"
+                nzMessage="{{'workspace.emptyFolder' | translate}}" nzShowIcon></nz-alert>
+    </nz-space>
+  </div>
+</div>
+
+
+<nz-dropdown-menu #dropdownFolder="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item>
+      <button nz-button nzType="text" (click)="handleRenameFolder(folder)">
+        <span nz-icon><i class="fa fa-pencil-square-o"></i></span>{{ 'workspace.rename'|translate }}
+      </button>
+    </li>
+    <li nz-menu-item>
+      <button nz-button nzDanger nzType="text" (click)="handleDeleteFolder(folder)">
+        <span nz-icon><i class="fa fa-trash"></i></span>{{ 'common.delete'|translate }}
+      </button>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+<nz-modal [(nzVisible)]="isModalRename" [nzTitle]="'workspace.renameFolder' | translate"
+          (nzOnCancel)="isModalRename = false" (nzOnOk)="acceptRename()" [nzOkText]="'workspace.rename'|translate"
+          [nzCancelText]="'common.cancel'|translate">
+  <ng-container *nzModalContent>
+    <common-input [(ngModel)]="folder.folderName" name="folderName" label="{{'workspace.newName' | translate}}"
+                  [offMb]="true"/>
+  </ng-container>
+</nz-modal>
+<ng-template #avatarTemplate>
+  <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+</ng-template>
+<ng-template #suffixIconButton>
+  <span nz-icon nzType="search"></span>
+</ng-template>
+<nz-modal [(nzVisible)]="isModalAgent" nzTitle="{{'workspace.agentInformation' |translate}}" (nzOnOk)="onSubmit()"
+          (nzOnCancel)="isModalAgent=false">
+  <ng-container *nzModalContent>
+    <div class="row" [formGroup]="formGroup">
+      <common-input class="col-md-12" label="{{'workspace.position' | translate}}" formControlName="position"
+                    [hasFeedback]="true"></common-input>
+      <common-input class="col-md-12" label="{{'workspace.jobBrief' | translate}}" formControlName="jobBrief"
+                    [hasFeedback]="true"></common-input>
+      <common-input class="col-md-12" label="{{'workspace.agentName' | translate}}" formControlName="agentName"
+                    [hasFeedback]="true"></common-input>
+      <common-input class="col-md-6" label="{{'workspace.language' | translate}}" formControlName="language"
+                    [hasFeedback]="true" type="select" [items]="languageOptions" bindLabel="name" bindValue="value"
+                    [optionTemplate]="optionTemplate">
+        <ng-template #optionTemplate let-item>
+          <span nz-icon><i [class]="item.flag"></i></span>&nbsp;
+          <span>{{ item.name }}</span>
+        </ng-template>
+      </common-input>
+      <common-input class="col-md-6" label="{{'workspace.folder' | translate}}" formControlName="folder"
+                    [hasFeedback]="true"></common-input>
+    </div>
+  </ng-container>
+</nz-modal>

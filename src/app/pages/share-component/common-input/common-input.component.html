@@ -1,0 +1,55 @@
+<div nz-form [nzLayout]="formLayout">
+  <nz-form-item [ngClass]="{'mb-0':offMb}" class="w-100" id="{{id}}">
+    <nz-form-label *ngIf="showLabel" [nzRequired]="isRequired" [nzTooltipTitle]="tooltipTitle" [nzSpan]="labelSpan"
+      [nzLabelWrap]="isWrapLabel">{{ label }}
+    </nz-form-label>
+    <nz-form-control [nzSpan]="inputSpan" [nzWarningTip]="warningText" [nzValidatingTip]="hint" [nzErrorTip]="errorText"
+      [nzHasFeedback]="hasFeedback">
+      <ng-container [ngSwitch]="type">
+        <nz-input-group [nzSearch]="isSearch" *ngSwitchDefault [nzAddOnBefore]="addOnBefore" [nzAddOnAfter]="addOnAfter"
+          [nzPrefix]="prefix" [nzSuffix]="suffix" [nzAddOnAfterIcon]="addOnAfterIcon" [nzPrefixIcon]="prefixIcon"
+          [nzSuffixIcon]="suffixIcon" [nzAddOnBeforeIcon]="addOnBeforeIcon">
+          <input [style.width.%]="100" [placeholder]="placeholder" [nzSize]="size" #inputElements="ngModel"
+            [disabled]="isDisabled || ngControl?.disabled" [(ngModel)]="value" nz-input type="{{type}}"
+            (input)="input()" (blur)="onBlur()" />
+        </nz-input-group>
+        <nz-select [nzPlaceHolder]="placeholder" [nzMode]="selectMode" *ngSwitchCase="'select'"
+          [nzShowSearch]="allowSearch" [nzSize]="size" [nzAllowClear]="allowClear" [compareWith]="compareFn"
+          [nzServerSearch]="isServerSearch" [nzLoading]="isLoading" #inputElements="ngModel"
+          [disabled]="isDisabled || ngControl?.disabled" [nzAutoClearSearchValue]="autoClearSearchValue"
+          [(ngModel)]="value" (nzOnSearch)="onSearch($event)" (nzScrollToBottom)="loadMore()" (nzBlur)="onBlur()"
+          (nzOpenChange)="input()" [nzDropdownRender]="renderTemplate">
+          <ng-container *ngFor="let item of items">
+            <ng-container *ngIf="!isLoading">
+              <nz-option *ngIf="!optionTemplate" [nzValue]="bindValue?item[bindValue]:item"
+                [nzLabel]="isTranslation?(bindLabel?translate.instant(item[bindLabel]):translate.instant(item)):(bindLabel?item[bindLabel]:item)">
+              </nz-option>
+              <nz-option nzCustomContent *ngIf="optionTemplate" [nzValue]="bindValue?item[bindValue]:item"
+              [nzLabel]="isTranslation?(bindLabel?translate.instant(item[bindLabel]):translate.instant(item)):(bindLabel?item[bindLabel]:item)">
+                <ng-container *ngTemplateOutlet="optionTemplate; context: {$implicit: item}"></ng-container>
+              </nz-option>
+            </ng-container>
+          </ng-container>
+          <ng-template #renderTemplate>
+            <nz-spin *ngIf="isLoadingMore"></nz-spin>
+          </ng-template>
+          <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+            <span nz-icon nzType="loading" class="loading-icon"></span>
+            {{ 'common.loadingData'|translate }}...
+          </nz-option>
+        </nz-select>
+        <nz-date-picker class="w-100" [nzPlaceHolder]="placeholder" [nzDisabled]="isDisabled || ngControl?.disabled"
+          *ngSwitchCase="'date'" #inputElements="ngModel" [nzShowTime]="showTime" [nzShowNow]="showNow"
+          [nzShowToday]="showToday" [nzFormat]="dateTimeFormat" [nzDisabledDate]="disabledDate" [(ngModel)]="value"
+          [nzSize]="size" (nzOnOpenChange)="input()" (blur)="onBlur()"></nz-date-picker>
+        <nz-input-number-group class="w-100" *ngSwitchCase="'number'" [nzPrefix]="prefix" [nzSize]="size"
+          [nzAddOnBefore]="addOnBefore" [nzAddOnAfter]="addOnAfter" [nzAddOnBeforeIcon]="addOnBeforeIcon"
+          [nzAddOnAfterIcon]="addOnAfterIcon">
+          <nz-input-number [nzPlaceHolder]="placeholder" [nzDisabled]="isDisabled || ngControl?.disabled"
+            [style.width.%]="100" #inputElements="ngModel" [nzMin]="min" [nzMax]="max" [(ngModel)]="value"
+            [nzStep]="step" (nzBlur)="onBlur()" (input)="input()"></nz-input-number>
+        </nz-input-number-group>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+</div>

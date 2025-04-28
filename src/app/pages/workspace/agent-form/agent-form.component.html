@@ -1,0 +1,11 @@
+<nz-modal nzTitle="{{'workspace.agentInformation' |translate}}" (nzOnOk)="onSubmit()">
+  <ng-container *nzModalContent>
+    <div class="row" [formGroup]="formGroup">
+      <common-input class="col-md-12" formControlName="position" [hasFeedback]="true"></common-input>
+      <common-input class="col-md-12" formControlName="jobBrief" [hasFeedback]="true"></common-input>
+      <common-input class="col-md-12" formControlName="agentName" [hasFeedback]="true"></common-input>
+      <common-input class="col-md-6" formControlName="language" [hasFeedback]="true"></common-input>
+      <common-input class="col-md-6" formControlName="folder" [hasFeedback]="true"></common-input>
+    </div>
+  </ng-container>
+</nz-modal>

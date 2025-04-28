@@ -1,0 +1,13 @@
+<div class="row">
+  <nz-page-header class="col-12"
+                  nzTitle="{{'settingModule.attribute' | translate}}">
+  </nz-page-header>
+  <div class="col-md-12">
+    <label>{{'List Workspace' | translate}}</label>
+    <div *ngFor="let item of workspaces" class="col-md-4" >
+      <nz-card nzHoverable style="width:240px" nzBordered="true" (click)="goToWorkSpace(item)">
+        <nz-card-meta [nzTitle]="item.workspaceName" nzDescription="description"></nz-card-meta>
+      </nz-card>
+    </div>
+  </div>
+</div>

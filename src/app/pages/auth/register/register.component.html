@@ -1,0 +1,35 @@
+<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-body-secondary">
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>{{'auth.register' | translate}}!</h4>
+    </div>
+    <div nz-form nzLayout="horizontal" [formGroup]="formGroup" class="card-body row">
+      <div class="p-3">
+        <common-input [labelSpan]="6" [inputSpan]="18" label="{{'auth.fullName' | translate}}"
+                      formControlName="fullName"></common-input>
+        <common-input [labelSpan]="6" [inputSpan]="18" label="{{'auth.email' | translate}}"
+                      formControlName="email"></common-input>
+        <common-input [labelSpan]="6" [inputSpan]="18" label="{{'auth.username' | translate}}"
+                      formControlName="username"></common-input>
+        <common-input [labelSpan]="6" [inputSpan]="18" label="{{'auth.password' | translate}}"
+                      formControlName="password" [type]="passwordVisible?'text':'password'" [suffix]="suffixTemplate"
+        ></common-input>
+        <common-input [labelSpan]="6" [inputSpan]="18" label="{{'auth.confirmPassword' | translate}}" [suffix]="suffixTemplate"
+                      formControlName="confirmPassword" [type]="passwordVisible?'text':'password'">
+        </common-input>
+      </div>
+
+      <ng-template #suffixTemplate>
+      <span
+        nz-icon
+        [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+        (click)="passwordVisible = !passwordVisible"
+      ></span>
+      </ng-template>
+      <div class="text-center">
+        <button nz-button type="submit" (click)="submitForm()" [nzType]="'primary'">{{'auth.register' | translate}}</button>
+      </div>
+      <p class="mt-2">{{'auth.ifExistAccount' | translate}}?<a class="mr-2" routerLink="/auth/login"> {{'auth.login' | translate}}</a></p>
+    </div>
+  </div>
+</div>

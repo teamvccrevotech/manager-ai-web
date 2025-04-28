@@ -1,0 +1,136 @@
+<div class="row gap-2">
+  <div class="col-md-12 d-flex justify-content-between">
+    <span>{{ 'workspace.hello' | translate }},
+      <span class="fw-bold">{{ currentUser.fullName }}</span>
+    </span>
+    <button nz-button nzType="default">
+      <span nz-icon nzType="">
+        <i class="fa fa-pencil-square-o"></i>
+      </span>
+      {{ 'workspace.editWorkspace'|translate }}
+    </button>
+  </div>
+  <div class="col-md-12">
+    <nz-descriptions style="background-color: whitesmoke" class="card card-body" [nzTitle]="workspace.workspaceName">
+      <nz-descriptions-item nzSpan="3" nzTitle="{{'workspace.description' | translate}}">{{ workspace.description }}
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="{{'workspace.website' | translate}}">{{ workspace.website }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="{{'workspace.businessType'|translate}}">{{ workspace.businessType }}
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </div>
+  <nz-divider></nz-divider>
+  <div class="row pe-5 ps-5">
+    <div class="col-md-12 d-flex justify-content-between">
+      <nz-space>
+        <button *nzSpaceItem nz-button nzType="primary">
+          <span nz-icon><i class="fa fa-user-plus"></i></span>
+          {{ 'workspace.createAgent'|translate }}
+        </button>
+        <button *nzSpaceItem nz-button nzType="default">
+          <span nz-icon><i class="fa fa-folder-open"></i></span>
+          {{ 'workspace.createFolder'|translate }}
+        </button>
+      </nz-space>
+      <nz-space>
+        <common-input *nzSpaceItem [items]="SORT_LIST" [showLabel]="false" [(ngModel)]="searchObject.orderBy"
+          bindLabel="name" bindValue="value" [isTranslation]="true" type="select"></common-input>
+        <button *nzSpaceItem nz-button nzType="default" (click)="searchObject.isAsc=!searchObject.isAsc">
+          <span *ngIf="!searchObject.isAsc" nz-icon nzType="sort-descending"></span>
+          <span *ngIf="searchObject.isAsc" nz-icon nzType="sort-ascending"></span>
+        </button>
+      </nz-space>
+    </div>
+    <nz-divider class="mt-0 mb-0"></nz-divider>
+    <div class="col-md-12 mt-0">
+      <ng-container *ngFor="let folder of workspace.folders">
+        <div class="row">
+          <nz-space class="col-md-12 mt-3">
+            <label style="font-size: 20px" *nzSpaceItem nz-icon><i class="fa fa-folder-o"></i></label>
+            <label class="cursor-pointer fw-semibold" style="font-size: 17px" *nzSpaceItem
+              (click)="goToFolder(folder)">{{folder.folderName}}</label>
+            <button nzSize="small" *nzSpaceItem nz-button nzType="default" nzShape="circle" nz-dropdown nzTrigger="click"
+              [nzDropdownMenu]="dropdownFolder" (nzVisibleChange)="selectedFolder = folder">
+              <span nz-icon><i class="fa fa-ellipsis-v"></i></span>
+            </button>
+          </nz-space>
+          <div class="col-md-12">
+            <nz-space nzWrap="true" nzSize="large">
+              <ng-container *ngFor="let agent of folder.agents">
+                <nz-card *nzSpaceItem class="mt-3">
+                  <nz-card-meta [nzAvatar]="avatarTemplate" [nzTitle]="agent.role"
+                    [nzDescription]="agent.name"></nz-card-meta>
+                </nz-card>
+              </ng-container>
+              <nz-alert class="mt-3" *ngIf="!folder.agents || folder.agents.length == 0" nzType="warning"
+                nzMessage="{{'workspace.emptyFolder' | translate}}" nzShowIcon></nz-alert>
+            </nz-space>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="col-md-12 mt-2">
+      <img src="assets/images/pattern.png" height="40px" alt="workspace-overview" class="w-100">
+    </div>
+    <div class="col-md-12 mt-2">
+      <h3>{{'workspace.yourRecentChat' | translate}}</h3>
+      <nz-table #basicTable [nzData]="recentChats" nzBordered="true"  nzTableLayout="auto"
+      nzShowSizeChanger [nzPageSizeOptions]="[1,5,10, 20, 30, 40, 50]">
+        <thead>
+          <tr>
+            <th nzEllipsis>{{'workspace.chatHistory' | translate}}</th>
+            <th nzEllipsis>{{'workspace.agent' | translate}}</th>
+            <th>{{'workspace.lastUpdate' | translate}}</th>
+            <th>{{'common.action' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let chat of basicTable.data">
+            <td nzEllipsis>{{chat.chatHistory}}</td>
+            <td nzEllipsis>{{chat.agent}}</td>
+            <td>{{chat.lastUpdate | date : 'dd/MM/yyyy HH:mm'}}</td>
+            <td>
+              <button nz-button nzType="link" nzShape="circle">
+                <span nz-icon><i class="fa fa-pencil-square-o"></i></span>
+              </button>
+              <button nz-button nzType="link" nzShape="circle" nzDanger>
+                <span nz-icon><i class="fa fa-trash"></i></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<ng-template #avatarTemplate>
+  <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+</ng-template>
+<nz-dropdown-menu #dropdownFolder="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item>
+      <button nz-button nzType="text" (click)="handleRenameFolder(selectedFolder)">
+        <span nz-icon><i class="fa fa-pencil-square-o"></i></span>{{'workspace.rename'|translate}}
+      </button>
+    </li>
+    <li nz-menu-item>
+      <button nz-button nzDanger nzType="text" (click)="handleDeleteFolder(selectedFolder)">
+        <span nz-icon><i class="fa fa-trash"></i></span>{{'common.delete'|translate}}
+      </button>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+<nz-modal [(nzVisible)]="isModalRename" [nzTitle]="'workspace.renameFolder' | translate" (nzOnCancel)="isModalRename = false"
+  (nzOnOk)="acceptRename()" [nzOkText]="'workspace.rename'|translate" [nzCancelText]="'common.cancel'|translate">
+  <ng-container *nzModalContent>
+    <div nz-form nzLayout="vertical">
+      <common-input [(ngModel)]="selectedFolder.folderName" name="folderName" 
+      label="{{'workspace.newName' | translate}}" [offMb]="true"/>
+    </div>
+  </ng-container>
+</nz-modal>
