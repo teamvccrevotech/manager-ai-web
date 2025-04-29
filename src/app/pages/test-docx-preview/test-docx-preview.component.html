@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="parameters-section">
+    <div class="file-upload">
+      <input type="file" 
+             accept=".docx" 
+             (change)="onFileSelected($event)"
+             #fileInput>
+      <button (click)="fileInput.click()">Chọn file Word</button>
+    </div>
+
+    <h3>Danh sách tham số</h3>
+    <div class="parameter-list">
+      <div *ngFor="let param of parameters" 
+           class="parameter-item"
+           [class.visible]="param.isVisible">
+        <span>{{param.key}}</span>
+        <common-input [offMb]="true" [(ngModel)]="param.value" [placeholder]="'Nhập giá trị cho ' + param.key" (ngModelChange)="onParameterChange(param)"></common-input>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview-section">
+    <h3>Xem trước tài liệu</h3>
+    <div #previewContainer id="preview-container">
+      <div *ngIf="!isFileLoaded" class="no-file-message">
+        Vui lòng chọn file Word để xem trước
+      </div>
+    </div>
+  </div>
+</div>

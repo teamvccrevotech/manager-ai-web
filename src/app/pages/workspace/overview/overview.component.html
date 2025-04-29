@@ -57,7 +57,7 @@
           <div class="col-md-12">
             <nz-space nzWrap="true" nzSize="large">
               <ng-container *ngFor="let agent of folder.agents">
-                <nz-card *nzSpaceItem class="mt-3">
+                <nz-card *nzSpaceItem class="mt-3" nzHoverable (click)="goToAgent(agent,folder)">
                   <nz-card-meta [nzAvatar]="avatarTemplate" [nzTitle]="agent.role"
                     [nzDescription]="agent.name"></nz-card-meta>
                 </nz-card>

@@ -139,7 +139,8 @@
     "saleInvoice": "Sale Invoice",
     "productShow": "Product show",
     "workspace": "Workspace",
-    "folder": "Folder"
+    "folder": "Folder",
+    "agentChat": "Agent Chat"
   },
   "action": {
     "backHome": "Back home"

@@ -1,1 +1,67 @@
-<p>agent-chat works!</p>
+<div class="container-fluid h-100">
+    <div class="row h-100">
+      <!-- Sidebar -->
+      <div class="col-3 border-end bg-white d-flex flex-column p-0" style="height: 100vh;">
+        <div class="p-3 border-bottom d-flex align-items-center">
+          <img src="assets/avatar.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+          <div>
+            <div class="fw-bold">Quản lý Nhân sự</div>
+            <div class="text-muted small">Mai</div>
+          </div>
+          <button class="btn btn-link ms-auto"><i class="fa fa-heart"></i></button>
+        </div>
+        <div class="p-3">
+          <button nz-button nzType="primary" class="w-100 mb-3">
+            <i class="fa fa-plus me-2"></i> New chat
+          </button>
+          <div class="mb-2 fw-bold">Chat with Mai</div>
+          <input nz-input placeholder="Search" class="mb-3 w-100" />
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item px-0 py-2 border-0 text-truncate" style="cursor:pointer;">
+              <i class="fa fa-comment me-2"></i>
+              Làm thế nào để tôi có thể cải thiện hiệu suất làm việc...
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <!-- Chat Area -->
+      <div class="col-9 d-flex flex-column p-0" style="height: 100vh;">
+        <div class="p-4 border-bottom d-flex align-items-center">
+          <img src="assets/avatar.png" alt="Avatar" class="rounded-circle me-3" width="40" height="40">
+          <div>
+            <div class="fw-bold">Mai</div>
+          </div>
+        </div>
+        <div class="flex-grow-1 p-4 overflow-auto">
+          <div class="mb-4">
+            <div>
+              Xin chào! Tôi là Mai, Quản lý Nhân sự tại zxc, sẵn sàng hỗ trợ bạn trong mọi vấn đề liên quan đến nhân sự...
+            </div>
+          </div>
+          <div class="mb-3">
+            <button nz-button class="mb-2 w-100 text-start">
+              Làm thế nào để tôi có thể cải thiện hiệu suất làm việc của đội nhóm mình?
+            </button>
+            <button nz-button class="mb-2 w-100 text-start">
+              Quy trình tuyển dụng tại công ty được thực hiện như thế nào?
+            </button>
+            <button nz-button class="w-100 text-start">
+              Có các khóa đào tạo hoặc chương trình phát triển kỹ năng nào mà tôi có thể tham gia không?
+            </button>
+          </div>
+        </div>
+        <div class="p-3 border-top bg-light">
+          <div class="d-flex align-items-center mb-2">
+            <button nz-button class="me-2"><i class="fa fa-bolt"></i> Super Power</button>
+            <button nz-button class="me-2"><i class="fa fa-tasks"></i> Task</button>
+            <button nz-button class="me-2"><i class="fa fa-paperclip"></i> Attach file</button>
+          </div>
+          <common-input [placeholder]="'Ask your Agent'" [isSearch]="true" [addOnAfter]="suffix" [offMb]="true"></common-input>
+            <ng-template #suffix>
+                <button nz-button nzType="primary" nzSearch><span nz-icon><span class="fa fa-paper-plane"></span></span></button>
+            </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>

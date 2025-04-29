@@ -23,6 +23,9 @@ import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
 import { NZ_I18N, en_US, vi_VN } from 'ng-zorro-antd/i18n';
 import {NzPageHeaderComponent} from "ng-zorro-antd/page-header";
 import {NzCardComponent, NzCardMetaComponent} from "ng-zorro-antd/card";
+import { TestDocxPreviewComponent } from './pages/test-docx-preview/test-docx-preview.component';
+import { FormsModule } from '@angular/forms';
+import { ShareComponentModule } from "./pages/share-component/share-component.module";
 registerLocaleData(en);
 registerLocaleData(vi);
 
@@ -39,30 +42,32 @@ const ngZorroConfig: NzConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    TestDocxPreviewComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     TranslateModule.forRoot({
-      defaultLanguage: "vi",
-      loader: {
-        provide: TranslateLoader,
-        useFactory: rootLoaderI18n,
-        deps: [HttpClient]
-      }
+        defaultLanguage: "vi",
+        loader: {
+            provide: TranslateLoader,
+            useFactory: rootLoaderI18n,
+            deps: [HttpClient]
+        }
     }),
     NgxSpinnerModule.forRoot({
         type: "ball-spin-clockwise"
-      }
-    ),
+    }),
     AppRoutingModule,
+    FormsModule,
     LayoutModule,
     NzPageHeaderComponent,
     NzCardComponent,
-    NzCardMetaComponent
-  ],
+    NzCardMetaComponent,
+    ShareComponentModule
+],
   providers: [
     provideNzConfig(ngZorroConfig),
     {

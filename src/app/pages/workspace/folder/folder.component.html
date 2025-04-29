@@ -30,7 +30,7 @@
   <div class="col-md-12">
     <nz-space nzWrap="true" nzSize="large">
       <ng-container *ngFor="let agent of folder.agents">
-        <nz-card *nzSpaceItem class="mt-3">
+        <nz-card *nzSpaceItem class="mt-3" nzHoverable (click)="goToAgent(agent)">
           <nz-card-meta [nzAvatar]="avatarTemplate" [nzTitle]="agent.role"
                         [nzDescription]="agent.name"></nz-card-meta>
         </nz-card>
@@ -38,6 +38,38 @@
       <nz-alert class="mt-3" *ngIf="!folder.agents || folder.agents.length == 0" nzType="warning"
                 nzMessage="{{'workspace.emptyFolder' | translate}}" nzShowIcon></nz-alert>
     </nz-space>
+  </div>
+  <div class="col-md-12 mt-2">
+    <img src="assets/images/pattern.png" height="40px" alt="workspace-overview" class="w-100">
+  </div>
+  <div class="col-md-12 mt-2">
+    <h3>{{'workspace.yourRecentChat' | translate}}</h3>
+    <nz-table #basicTable [nzData]="recentChats" nzBordered="true"  nzTableLayout="auto"
+    nzShowSizeChanger [nzPageSizeOptions]="[1,5,10, 20, 30, 40, 50]">
+      <thead>
+        <tr>
+          <th nzEllipsis>{{'workspace.chatHistory' | translate}}</th>
+          <th nzEllipsis>{{'workspace.agent' | translate}}</th>
+          <th>{{'workspace.lastUpdate' | translate}}</th>
+          <th>{{'common.action' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chat of basicTable.data">
+          <td nzEllipsis>{{chat.chatHistory}}</td>
+          <td nzEllipsis>{{chat.agent}}</td>
+          <td>{{chat.lastUpdate | date : 'dd/MM/yyyy HH:mm'}}</td>
+          <td>
+            <button nz-button nzType="link" nzShape="circle">
+              <span nz-icon><i class="fa fa-pencil-square-o"></i></span>
+            </button>
+            <button nz-button nzType="link" nzShape="circle" nzDanger>
+              <span nz-icon><i class="fa fa-trash"></i></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
   </div>
 </div>
 

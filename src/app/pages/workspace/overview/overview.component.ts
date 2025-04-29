@@ -55,6 +55,9 @@ export class OverviewComponent implements OnInit {
   acceptRename() {
     this.isModalRename = false;
   }
+  goToAgent(agent: any,folder: any) {
+    this.router.navigate([`/workspace/${this.currentId}/agent-chat/${agent.agentId}`]);
+  }
 
   protected readonly SORT_LIST = SORT_LIST;
 }

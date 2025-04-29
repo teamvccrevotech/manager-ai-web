@@ -51,7 +51,7 @@ export class CommonInputComponent implements OnInit, ControlValueAccessor, OnCha
   @Input() hint: string = '';
   @Input() tooltipTitle: string = null;
   @Input() placeholder: string = '';
-  @Input() type: 'text' | 'number' | 'email' | 'password' | 'date' | 'select' | 'editor' = 'text';
+  @Input() type: 'text' | 'number' | 'email' | 'password' | 'date' | 'select' | 'textarea' = 'text';
   @Input() items: any[] = [];
   @Input() bindLabel: string = null;
   @Input() bindValue: string = null;

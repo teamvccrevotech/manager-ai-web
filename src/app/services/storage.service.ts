@@ -24,11 +24,13 @@ export class StorageService {
                 name: "agent name 1",
                 role: "agent role 1",
                 description: "agent description 1",
+                agentId:1
               },
               {
                 name: "agent name 2",
                 role: "agent role 2",
                 description: "agent description 2",
+                agentId:2
               }
             ]
           },
@@ -43,16 +45,19 @@ export class StorageService {
                 name: "agent name 3",
                 role: "agent role 3",
                 description: "agent description 3",
+                agentId:3
               },
               {
                 name: "agent name 4",
                 role: "agent role 4",
                 description: "agent description 4",
+                agentId:4
               },
               {
                 name: "agent name 5",
                 role: "agent role 5",
                 description: "agent description 5",
+                agentId:5
               }
             ]
           },{
@@ -63,31 +68,37 @@ export class StorageService {
                 name: "agent name 3",
                 role: "agent role 3",
                 description: "agent description 3",
+                agentId:6
               },
               {
                 name: "agent name 4",
                 role: "agent role 4",
                 description: "agent description 4",
+                agentId:7
               },
               {
                 name: "agent name 5",
                 role: "agent role 5",
                 description: "agent description 5",
+                agentId:8
               },
               {
                 name: "agent name 6",
                 role: "agent role 6",
                 description: "agent description 6",
+                agentId:9
               },
               {
                 name: "agent name 3",
                 role: "agent role 3",
                 description: "agent description 3",
+                agentId:10
               },
               {
                 name: "agent name 4",
                 role: "agent role 4",
                 description: "agent description 4",
+                agentId:11
               },
             ]
           },

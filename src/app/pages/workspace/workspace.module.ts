@@ -22,6 +22,7 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import { AgentFormComponent } from './agent-form/agent-form.component';
 import { AgentChatComponent } from './agent-chat/agent-chat.component';
 import { AgentConfigurationComponent } from './agent-configuration/agent-configuration.component';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { AgentConfigurationComponent } from './agent-configuration/agent-configu
     NzModalComponent,
     NzModalContentDirective,
     NzTableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzInputModule
   ],
   providers: [
     NzModalService

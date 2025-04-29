@@ -25,6 +25,11 @@ export class FolderComponent implements OnInit {
   formGroup: FormGroup
   isModalAgent: boolean = false;
   languageOptions = LANGUAGE_OPTIONS;
+  recentChats: any[] = [
+    {chatHistory: 'Chat history 1', agent: 'Agent 1', lastUpdate: new Date()},
+    {chatHistory: 'Chat history 2', agent: 'Agent 2', lastUpdate: new Date()},
+    {chatHistory: 'Chat history 3', agent: 'Agent 3', lastUpdate: new Date()},
+  ];
 
   constructor(private storage: StorageService,
               private route: ActivatedRoute,
@@ -59,7 +64,7 @@ export class FolderComponent implements OnInit {
   }
 
   goToAgent(agent: any) {
-    this.router.navigate([`/workspace/${this.workspaceId}/folder/${this.folderId}/agent/${agent.agentId}`]);
+    this.router.navigate([`/workspace/${this.workspaceId}/agent-chat/${agent.agentId}`]);
   }
 
   initForm() {
