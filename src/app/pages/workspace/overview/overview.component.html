@@ -23,7 +23,7 @@
   <div class="row pe-5 ps-5">
     <div class="col-md-12 d-flex justify-content-between">
       <nz-space>
-        <button *nzSpaceItem nz-button nzType="primary">
+        <button *nzSpaceItem nz-button nzType="primary" (click)="createAgent()">
           <span nz-icon><i class="fa fa-user-plus"></i></span>
           {{ 'workspace.createAgent'|translate }}
         </button>
@@ -129,7 +129,7 @@
   (nzOnOk)="acceptRename()" [nzOkText]="'workspace.rename'|translate" [nzCancelText]="'common.cancel'|translate">
   <ng-container *nzModalContent>
     <div nz-form nzLayout="vertical">
-      <common-input [(ngModel)]="selectedFolder.folderName" name="folderName" 
+      <common-input [(ngModel)]="selectedFolder.folderName" name="folderName"
       label="{{'workspace.newName' | translate}}" [offMb]="true"/>
     </div>
   </ng-container>

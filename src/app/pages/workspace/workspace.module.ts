@@ -17,12 +17,13 @@ import {NzAvatarComponent} from "ng-zorro-antd/avatar";
 import {NzAlertComponent} from "ng-zorro-antd/alert";
 import {NzDropdownButtonDirective, NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
-import {NzModalComponent, NzModalContentDirective, NzModalService} from "ng-zorro-antd/modal";
+import {NzModalComponent, NzModalContentDirective, NzModalFooterDirective, NzModalService} from "ng-zorro-antd/modal";
 import {NzTableModule} from "ng-zorro-antd/table";
 import { AgentFormComponent } from './agent-form/agent-form.component';
 import { AgentChatComponent } from './agent-chat/agent-chat.component';
 import { AgentConfigurationComponent } from './agent-configuration/agent-configuration.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import {NzTabComponent, NzTabSetComponent} from "ng-zorro-antd/tabs";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzModalContentDirective,
     NzTableModule,
     ReactiveFormsModule,
-    NzInputModule
+    NzInputModule,
+    NzModalFooterDirective,
+    NzTabSetComponent,
+    NzTabComponent
   ],
   providers: [
     NzModalService

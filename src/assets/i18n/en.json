@@ -140,7 +140,8 @@
     "productShow": "Product show",
     "workspace": "Workspace",
     "folder": "Folder",
-    "agentChat": "Agent Chat"
+    "agentChat": "Agent Chat",
+    "agentConfiguration": "Agent configuration"
   },
   "action": {
     "backHome": "Back home"
@@ -175,6 +176,7 @@
     "agentName": "Agent name",
     "language": "Language",
     "folder": "Folder",
-    "agentInformation": "Agent information"
+    "agentInformation": "Agent information",
+    "configuration": "Configuration"
   }
 }

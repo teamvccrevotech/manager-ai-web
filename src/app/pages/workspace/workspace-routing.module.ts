@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {OverviewComponent} from "./overview/overview.component";
 import {FolderComponent} from "./folder/folder.component";
 import { AgentChatComponent } from './agent-chat/agent-chat.component';
+import {AgentConfigurationComponent} from "./agent-configuration/agent-configuration.component";
 
 const routes: Routes = [
   {
@@ -27,6 +28,13 @@ const routes: Routes = [
         component: AgentChatComponent,
         data: {
           breadcrumb: 'breadcrumb.agentChat',
+        },
+      },
+      {
+        path: "agent-configuration/:agentId",
+        component: AgentConfigurationComponent,
+        data: {
+          breadcrumb: 'breadcrumb.agentConfiguration',
         },
       }
     ]

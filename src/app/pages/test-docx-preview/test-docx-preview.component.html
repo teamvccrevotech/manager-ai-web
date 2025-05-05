@@ -14,6 +14,7 @@
            class="parameter-item"
            [class.visible]="param.isVisible">
         <span>{{param.key}}</span>
+        <span>{{currentText.includes(param.key)}}</span>
         <common-input [offMb]="true" [(ngModel)]="param.value" [placeholder]="'Nhập giá trị cho ' + param.key" (ngModelChange)="onParameterChange(param)"></common-input>
       </div>
     </div>

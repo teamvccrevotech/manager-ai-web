@@ -3,6 +3,9 @@ import {StorageService} from "../../../services/storage.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SearchObject, SORT_LIST} from "../workspace.model";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {AgentFormComponent} from "../agent-form/agent-form.component";
+import {NzModalService} from "ng-zorro-antd/modal";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-overview',
@@ -27,7 +30,9 @@ export class OverviewComponent implements OnInit {
   constructor(private storage: StorageService,
               private route: ActivatedRoute,
               private router: Router,
-              private message: NzMessageService) {
+              private message: NzMessageService,
+              private modal: NzModalService,
+              private translate: TranslateService) {
     this.currentId = this.route.snapshot.paramMap.get('id');
   }
   ngOnInit(): void {
@@ -57,6 +62,15 @@ export class OverviewComponent implements OnInit {
   }
   goToAgent(agent: any,folder: any) {
     this.router.navigate([`/workspace/${this.currentId}/agent-chat/${agent.agentId}`]);
+  }
+  createAgent() {
+    const modal = this.modal.create({
+      nzTitle: this.translate.instant("workspace.agentInformation"),
+      nzContent: AgentFormComponent,
+      nzData: {
+        workspaceId: this.currentId
+      },
+    });
   }
 
   protected readonly SORT_LIST = SORT_LIST;

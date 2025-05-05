@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {StorageService} from '../../../services/storage.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {LANGUAGE_OPTIONS, SearchObject, SORT_LIST} from '../workspace.model';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
+import {NzModalService} from "ng-zorro-antd/modal";
+import {AgentFormComponent} from "../agent-form/agent-form.component";
 
 @Component({
   selector: 'app-folder',
@@ -35,13 +37,13 @@ export class FolderComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private message: NzMessageService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private modal: NzModalService) {
     this.workspaceId = this.route.snapshot.paramMap.get('id');
     this.folderId = this.route.snapshot.paramMap.get('folderId');
   }
 
   ngOnInit(): void {
-    this.initForm();
     this.storage.currentUser.subscribe(user => {
       this.currentUser = user;
       if (this.currentUser) {
@@ -66,21 +68,18 @@ export class FolderComponent implements OnInit {
   goToAgent(agent: any) {
     this.router.navigate([`/workspace/${this.workspaceId}/agent-chat/${agent.agentId}`]);
   }
-
-  initForm() {
-    this.formGroup = new FormGroup({
-      position: new FormControl(null, [Validators.required]),
-      jobBrief: new FormControl(null, [Validators.required]),
-      agentName: new FormControl(null, [Validators.required]),
-      language: new FormControl(null, [Validators.required]),
-      folder: new FormControl(null, [Validators.required]),
-    })
+  handlerConfiguration(agent: any) {
+    this.router.navigate([`/workspace/${this.workspaceId}/agent-configuration/${agent.agentId}`]);
   }
 
-  onSubmit() {
-    if (this.formGroup.invalid) {
-      this.message.error(this.translate.instant("validation.formInvalid"));
-    }
+  createAgent() {
+    const modal = this.modal.create({
+      nzTitle: this.translate.instant("workspace.agentInformation"),
+      nzContent: AgentFormComponent,
+      nzData: {
+        workspaceId: this.workspaceId
+      },
+    });
   }
 
   protected readonly SORT_LIST = SORT_LIST;

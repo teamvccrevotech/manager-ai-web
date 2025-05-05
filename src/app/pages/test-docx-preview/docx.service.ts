@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 interface Parameter {
   key: string;
   value: string;
+  isVisible?: boolean;
 }
 
 @Injectable({
@@ -16,6 +17,7 @@ interface Parameter {
 export class DocxService {
   private currentFile: ArrayBuffer;
   private previewElement: HTMLElement;
+  private originalContent: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -28,6 +30,39 @@ export class DocxService {
 
   setCurrentFile(file: ArrayBuffer) {
     this.currentFile = file;
+    this.extractOriginalContent(file);
+  }
+
+  private extractOriginalContent(file: ArrayBuffer) {
+    try {
+      const binaryString = this.arrayBufferToBinary(file);
+      const zip = new PizZip(binaryString);
+      const doc = new Docxtemplater(zip, {
+        paragraphLoop: true,
+        linebreaks: true
+      });
+      
+      const content = doc.getFullText();
+      this.originalContent = content;
+    } catch (error) {
+      console.error('Lỗi khi trích xuất nội dung gốc:', error);
+    }
+  }
+
+  getOriginalParamPositions(): { [key: string]: number[] } {
+    const positions: { [key: string]: number[] } = {};
+    const paramRegex = /\{[^}]+\}/g;
+    let match;
+
+    while ((match = paramRegex.exec(this.originalContent)) !== null) {
+      const param = match[0];
+      if (!positions[param]) {
+        positions[param] = [];
+      }
+      positions[param].push(match.index);
+    }
+
+    return positions;
   }
 
   setPreviewElement(element: HTMLElement) {

@@ -13,6 +13,7 @@ interface Parameter {
   styleUrl: './test-docx-preview.component.scss',
 })
 export class TestDocxPreviewComponent implements OnInit, OnDestroy, AfterViewInit {
+  currentText="";
   parameters: Parameter[] = [
     { key: '{1}', value: '', isVisible: false },
     { key: '{2}', value: '', isVisible: false },
@@ -29,6 +30,8 @@ export class TestDocxPreviewComponent implements OnInit, OnDestroy, AfterViewIni
   private scrollTimeout: any;
   @ViewChild('previewContainer') previewContainer: ElementRef;
   isFileLoaded = false;
+
+  private originalParamPositions: { [key: string]: number[] } = {};
 
   constructor(private docxService: DocxService) {}
 
@@ -49,6 +52,7 @@ export class TestDocxPreviewComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   private checkVisibleParameters() {
+    this.currentText = "";
     const container = this.previewContainer.nativeElement;
     const containerRect = container.getBoundingClientRect();
     const viewportTop = container.scrollTop;
@@ -57,25 +61,39 @@ export class TestDocxPreviewComponent implements OnInit, OnDestroy, AfterViewIni
     // Reset tất cả parameters về không visible
     this.parameters.forEach(param => param.isVisible = false);
 
-    // Tìm tất cả các elements chứa parameters trong preview
-    const paramElements = container.getElementsByClassName('param-highlight');
-    
-    Array.from(paramElements).forEach((element: HTMLElement) => {
-      const elementRect = element.getBoundingClientRect();
-      const elementTop = elementRect.top - containerRect.top + container.scrollTop;
+    // Lấy tất cả text nodes trong container
+    const textNodes = this.getAllTextNodes(container);
+
+    // Duyệt qua từng text node để tính toán vị trí tương đối
+    for (const node of textNodes) {
+      const text = node.textContent || '';
+      const elementRect = node.parentElement?.getBoundingClientRect();
       
-      // Kiểm tra element có nằm trong viewport không
-      if (elementTop >= viewportTop && elementTop <= viewportBottom) {
-        const paramKey = element.getAttribute('data-param');
-        const param = this.parameters.find(p => p.key === paramKey);
-        if (param) {
-          param.isVisible = true;
+      if (elementRect) {
+        const elementTop = elementRect.top - containerRect.top + container.scrollTop;
+        
+        // Nếu node này nằm trong viewport
+        if (elementTop >= viewportTop && elementTop <= viewportBottom) {
+          this.currentText +=text;
         }
       }
-    });
+    }
+  }
 
-    // Force change detection
-    this.parameters = [...this.parameters];
+  private getAllTextNodes(element: HTMLElement): Text[] {
+    const textNodes: Text[] = [];
+    const walker = document.createTreeWalker(
+      element,
+      NodeFilter.SHOW_TEXT,
+      null
+    );
+
+    let node;
+    while (node = walker.nextNode()) {
+      textNodes.push(node as Text);
+    }
+
+    return textNodes;
   }
 
   async onFileSelected(event: Event) {
@@ -92,10 +110,13 @@ export class TestDocxPreviewComponent implements OnInit, OnDestroy, AfterViewIni
       const arrayBuffer = await this.readFileAsArrayBuffer(file);
       this.docxService.setCurrentFile(arrayBuffer);
       this.docxService.setPreviewElement(this.previewContainer.nativeElement);
+      
+      // Lấy vị trí các params trong nội dung gốc
+      this.originalParamPositions = this.docxService.getOriginalParamPositions();
+      
       this.isFileLoaded = true;
       await this.docxService.updatePreviewWithParameters(this.parameters);
       
-      // Kiểm tra parameters sau khi render
       setTimeout(() => {
         this.checkVisibleParameters();
       }, 500);

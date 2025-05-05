@@ -1,11 +1,27 @@
-<nz-modal nzTitle="{{'workspace.agentInformation' |translate}}" (nzOnOk)="onSubmit()">
-  <ng-container *nzModalContent>
-    <div class="row" [formGroup]="formGroup">
-      <common-input class="col-md-12" formControlName="position" [hasFeedback]="true"></common-input>
-      <common-input class="col-md-12" formControlName="jobBrief" [hasFeedback]="true"></common-input>
-      <common-input class="col-md-12" formControlName="agentName" [hasFeedback]="true"></common-input>
-      <common-input class="col-md-6" formControlName="language" [hasFeedback]="true"></common-input>
-      <common-input class="col-md-6" formControlName="folder" [hasFeedback]="true"></common-input>
-    </div>
-  </ng-container>
-</nz-modal>
+<div class="row" [formGroup]="formGroup">
+  <common-input class="col-md-12" label="{{'workspace.position' | translate}}" formControlName="position"
+                [hasFeedback]="true"></common-input>
+  <common-input class="col-md-12" label="{{'workspace.jobBrief' | translate}}" formControlName="jobBrief"
+                [hasFeedback]="true"></common-input>
+  <common-input class="col-md-12" label="{{'workspace.agentName' | translate}}" formControlName="agentName"
+                [hasFeedback]="true"></common-input>
+  <common-input class="col-md-6" label="{{'workspace.language' | translate}}" formControlName="language"
+                [hasFeedback]="true" type="select" [items]="languageOptions" bindLabel="name" bindValue="value"
+                [optionTemplate]="optionTemplate">
+    <ng-template #optionTemplate let-item>
+      <span nz-icon><i [class]="item.flag"></i></span>&nbsp;
+      <span>{{ item.name }}</span>
+    </ng-template>
+  </common-input>
+  <common-input class="col-md-6" label="{{'workspace.folder' | translate}}" formControlName="folder"
+    [hasFeedback]="true" type="select" [items]="folders" bindLabel="folderName" bindValue="folderId"></common-input>
+
+</div>
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="handleCancel()">
+    {{ 'common.cancel' | translate }}
+  </button>
+  <button nz-button nzType="primary" (click)="handleOk()">
+    {{ 'common.ok' | translate }}
+  </button>
+</div>

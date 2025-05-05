@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AgentConfigurationComponent {
 
+  agentId: any;
+  agent: any;
 }

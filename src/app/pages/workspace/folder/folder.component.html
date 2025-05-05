@@ -22,7 +22,7 @@
         <span *ngIf="searchObject.isAsc" nz-icon nzType="sort-ascending"></span>
       </button>
     </nz-space>
-    <button nz-button nzType="primary" (click)="isModalAgent=true">
+    <button nz-button nzType="primary" (click)="createAgent()">
       <span nz-icon><i class="fa fa-user-plus"></i></span>
       {{ 'workspace.createAgent'|translate }}
     </button>
@@ -30,9 +30,38 @@
   <div class="col-md-12">
     <nz-space nzWrap="true" nzSize="large">
       <ng-container *ngFor="let agent of folder.agents">
-        <nz-card *nzSpaceItem class="mt-3" nzHoverable (click)="goToAgent(agent)">
-          <nz-card-meta [nzAvatar]="avatarTemplate" [nzTitle]="agent.role"
+        <nz-card *nzSpaceItem class="mt-3" nzHoverable (click)="goToAgent(agent)" [nzCover]="coverTemplate">
+          <nz-card-meta [nzTitle]="agent.role"
                         [nzDescription]="agent.name"></nz-card-meta>
+          <label>{{ agent.description }}</label>
+          <ng-template #coverTemplate>
+            <div class="bg-pink d-flex justify-content-between p-2 agent-header">
+              <nz-avatar [nzSize]="64" nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+              <button class="action-button" nzSize="small" nz-button nzType="default" nzShape="circle" nz-dropdown nzTrigger="click"
+                      [nzDropdownMenu]="dropdownMenu" (click)="$event.stopPropagation()">
+                <span nz-icon><i class="fa fa-ellipsis-v"></i></span>
+              </button>
+            </div>
+          </ng-template>
+          <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>
+                <button nz-button nzType="text" (click)="handlerConfiguration(agent)">
+                  <span nz-icon nzType="setting"></span>{{ 'workspace.configuration'|translate }}
+                </button>
+              </li>
+              <li nz-menu-item>
+                <button nz-button nzType="text" (click)="handleRenameFolder(agent)">
+                  <span nz-icon><i class="fa fa-pencil-square-o"></i></span>{{ 'workspace.rename'|translate }}
+                </button>
+              </li>
+              <li nz-menu-item>
+                <button nz-button nzDanger nzType="text" (click)="handleDeleteFolder(agent)">
+                  <span nz-icon><i class="fa fa-trash"></i></span>{{ 'common.delete'|translate }}
+                </button>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
         </nz-card>
       </ng-container>
       <nz-alert class="mt-3" *ngIf="!folder.agents || folder.agents.length == 0" nzType="warning"
@@ -102,26 +131,3 @@
 <ng-template #suffixIconButton>
   <span nz-icon nzType="search"></span>
 </ng-template>
-<nz-modal [(nzVisible)]="isModalAgent" nzTitle="{{'workspace.agentInformation' |translate}}" (nzOnOk)="onSubmit()"
-          (nzOnCancel)="isModalAgent=false">
-  <ng-container *nzModalContent>
-    <div class="row" [formGroup]="formGroup">
-      <common-input class="col-md-12" label="{{'workspace.position' | translate}}" formControlName="position"
-                    [hasFeedback]="true"></common-input>
-      <common-input class="col-md-12" label="{{'workspace.jobBrief' | translate}}" formControlName="jobBrief"
-                    [hasFeedback]="true"></common-input>
-      <common-input class="col-md-12" label="{{'workspace.agentName' | translate}}" formControlName="agentName"
-                    [hasFeedback]="true"></common-input>
-      <common-input class="col-md-6" label="{{'workspace.language' | translate}}" formControlName="language"
-                    [hasFeedback]="true" type="select" [items]="languageOptions" bindLabel="name" bindValue="value"
-                    [optionTemplate]="optionTemplate">
-        <ng-template #optionTemplate let-item>
-          <span nz-icon><i [class]="item.flag"></i></span>&nbsp;
-          <span>{{ item.name }}</span>
-        </ng-template>
-      </common-input>
-      <common-input class="col-md-6" label="{{'workspace.folder' | translate}}" formControlName="folder"
-                    [hasFeedback]="true"></common-input>
-    </div>
-  </ng-container>
-</nz-modal>
